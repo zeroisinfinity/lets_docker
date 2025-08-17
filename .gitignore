@@ -1,0 +1,64 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+*.log
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Package managers
+pip-wheel-metadata/
+pip-log.txt
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Django stuff
+*.sqlite3
+db.sqlite3
+*.pot
+*.pyc
+
+# FastAPI / Uvicorn
+*.db
+
+# --- Docker ---
+*.pid
+*.seed
+*.pid.lock
+*.tar
+*.img
+
+# --- Node/npm (if you touch JS in docker) ---
+node_modules/
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+*.idea/
+.vscode/
+
+# --- Project specific ---
+# Don’t commit extracted zip contents or mounted junk
+no_copy_test/
+*.zip
+
+# Logs
+logs/
+*.log
+

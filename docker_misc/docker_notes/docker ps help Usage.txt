@@ -1,0 +1,427 @@
+docker ps --help
+Usage:  docker ps [OPTIONS]
+
+List containers
+
+Aliases:
+  docker container ls, docker container list, docker container ps, docker ps
+
+Options:
+  -a, --all             Show all containers (default shows just running)
+  -f, --filter filter   Filter output based on conditions provided
+      --format string   Format output using a custom template:
+                        'table':            Print output in table format with column headers (default)
+                        'table TEMPLATE':   Print output in table format using the given Go template
+                        'json':             Print in JSON format
+                        'TEMPLATE':         Print output using the given Go template.
+                        Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with
+                        templates
+  -n, --last int        Show n last created containers (includes all states) (default -1)
+  -l, --latest          Show the latest created container (includes all states)
+      --no-trunc        Don't truncate output
+  -q, --quiet           Only display container IDs
+  -s, --size            Display total file sizes
+  
+docker container ls
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+docker container list
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+docker container ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+docker ps --help
+Usage:  docker ps [OPTIONS]
+
+List containers
+
+Aliases:
+  docker container ls, docker container list, docker container ps, docker ps
+
+Options:
+  -a, --all             Show all containers (default shows just running)
+  -f, --filter filter   Filter output based on conditions provided
+      --format string   Format output using a custom template:
+                        'table':            Print output in table format with column headers (default)
+                        'table TEMPLATE':   Print output in table format using the given Go template
+                        'json':             Print in JSON format
+                        'TEMPLATE':         Print output using the given Go template.
+                        Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with
+                        templates
+  -n, --last int        Show n last created containers (includes all states) (default -1)
+  -l, --latest          Show the latest created container (includes all states)
+      --no-trunc        Don't truncate output
+  -q, --quiet           Only display container IDs
+  -s, --size            Display total file sizes
+  
+docker pull kalilinux/kali-rolling
+Using default tag: latest
+latest: Pulling from kalilinux/kali-rolling
+9447299399b8: Pull complete 
+Digest: sha256:05802cc65d198460a8926e2eae95f39874e72be19b9b8752ac118a22bd8deb4b
+Status: Downloaded newer image for kalilinux/kali-rolling:latest
+docker.io/kalilinux/kali-rolling:latest
+
+docker search blackarch
+NAME                       DESCRIPTION                                     STARS     OFFICIAL
+blackarchlinux/blackarch   BlackArch Linux official docker images.         25        
+heichblatt/blackarch       Arch Linux, Yaourt and BlackArch                7         
+rfhs/blackarch             This is the blackarch docker image for the R…   0         
+bestpig/blackarch          Simple blackarch docker image (Kali Linux al…   0         
+mrscratchcat/blackarch     blackarch with some extra tools                 0         
+
+     
+docker pull blackarchlinux/blackarch
+Using default tag: latest
+latest: Pulling from blackarchlinux/blackarch
+8434074f7e55: Pull complete 
+e123658b75d2: Pull complete 
+Digest: sha256:ce599939e289cf72f35510b8f989cf6c81cc4d063d0a94afc5a976ef8abe86de
+Status: Downloaded newer image for blackarchlinux/blackarch:latest
+docker.io/blackarchlinux/blackarch:latest
+   
+   
+docker search parrotsec
+NAME                                                           DESCRIPTION                                     STARS     OFFICIAL
+parrotsec/security                                             Official Parrot Security image pre-loaded wi…   90        
+parrotsec/core                                                 Official Base Image of Parrot OS                16        
+parrotsec/metasploit                                           Official Parrot container for Metasploit        2         
+    
+
+docker container ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                      PORTS     NAMES
+c8c5dd363b03   ubuntu:25.04   "--volume 228890fe95…"   17 hours ago   Created                               gallant_gates
+686a0e9c65ae   ubuntu:25.04   "sleep infinity"         18 hours ago   Exited (137) 17 hours ago             priceless_turing
+7ee973e4741e   ubuntu:25.04   "bash"                   18 hours ago   Exited (130) 18 hours ago             compassionate_johnson
+7083b0630e4b   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               objective_euclid
+d99f96a0aa05   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             affectionate_williamson
+228890fe9575   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             quirky_mirzakhani
+8dbdc8c7f1b7   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             focused_borg
+4479c45530e3   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             modest_fermat
+b10db0399e39   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               angry_nightingale
+15dad1163f48   ubuntu:25.04   "/bin/bash"              18 hours ago   Exited (0) 18 hours ago               flamboyant_williamson
+
+docker ps -f status=exited
+CONTAINER ID   IMAGE          COMMAND            CREATED        STATUS                      PORTS     NAMES
+686a0e9c65ae   ubuntu:25.04   "sleep infinity"   18 hours ago   Exited (137) 17 hours ago             priceless_turing
+7ee973e4741e   ubuntu:25.04   "bash"             18 hours ago   Exited (130) 18 hours ago             compassionate_johnson
+7083b0630e4b   ubuntu:25.04   "bash"             18 hours ago   Exited (0) 18 hours ago               objective_euclid
+d99f96a0aa05   ubuntu:25.04   "bash"             18 hours ago   Exited (137) 17 hours ago             affectionate_williamson
+228890fe9575   ubuntu:25.04   "bash"             18 hours ago   Exited (137) 17 hours ago             quirky_mirzakhani
+8dbdc8c7f1b7   ubuntu:25.04   "bash"             18 hours ago   Exited (137) 17 hours ago             focused_borg
+4479c45530e3   ubuntu:25.04   "bash"             18 hours ago   Exited (137) 17 hours ago             modest_fermat
+b10db0399e39   ubuntu:25.04   "bash"             18 hours ago   Exited (0) 18 hours ago               angry_nightingale
+15dad1163f48   ubuntu:25.04   "/bin/bash"        18 hours ago   Exited (0) 18 hours ago               flamboyant_williamson
+docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                      PORTS     NAMES
+c8c5dd363b03   ubuntu:25.04   "--volume 228890fe95…"   17 hours ago   Created                               gallant_gates
+686a0e9c65ae   ubuntu:25.04   "sleep infinity"         18 hours ago   Exited (137) 17 hours ago             priceless_turing
+7ee973e4741e   ubuntu:25.04   "bash"                   18 hours ago   Exited (130) 18 hours ago             compassionate_johnson
+7083b0630e4b   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               objective_euclid
+d99f96a0aa05   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             affectionate_williamson
+228890fe9575   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             quirky_mirzakhani
+8dbdc8c7f1b7   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             focused_borg
+4479c45530e3   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             modest_fermat
+b10db0399e39   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               angry_nightingale
+15dad1163f48   ubuntu:25.04   "/bin/bash"              18 hours ago   Exited (0) 18 hours ago               flamboyant_williamson
+docker ps --all
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                      PORTS     NAMES
+c8c5dd363b03   ubuntu:25.04   "--volume 228890fe95…"   17 hours ago   Created                               gallant_gates
+686a0e9c65ae   ubuntu:25.04   "sleep infinity"         18 hours ago   Exited (137) 17 hours ago             priceless_turing
+7ee973e4741e   ubuntu:25.04   "bash"                   18 hours ago   Exited (130) 18 hours ago             compassionate_johnson
+7083b0630e4b   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               objective_euclid
+d99f96a0aa05   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             affectionate_williamson
+228890fe9575   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             quirky_mirzakhani
+8dbdc8c7f1b7   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             focused_borg
+4479c45530e3   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             modest_fermat
+b10db0399e39   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               angry_nightingale
+15dad1163f48   ubuntu:25.04   "/bin/bash"              18 hours ago   Exited (0) 18 hours ago               flamboyant_williamson
+
+
+docker ps -a \
+-f status=exited \
+-f name=focused_borg
+CONTAINER ID   IMAGE          COMMAND   CREATED        STATUS                      PORTS     NAMES
+8dbdc8c7f1b7   ubuntu:25.04   "bash"    18 hours ago   Exited (137) 17 hours ago             focused_borg
+docker ps -a -f before=focused_borg
+CONTAINER ID   IMAGE          COMMAND       CREATED        STATUS                      PORTS     NAMES
+4479c45530e3   ubuntu:25.04   "bash"        18 hours ago   Exited (137) 17 hours ago             modest_fermat
+b10db0399e39   ubuntu:25.04   "bash"        18 hours ago   Exited (0) 18 hours ago               angry_nightingale
+15dad1163f48   ubuntu:25.04   "/bin/bash"   18 hours ago   Exited (0) 18 hours ago               flamboyant_williamson
+docker ps -a -f since=focused_borg
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                      PORTS     NAMES
+c8c5dd363b03   ubuntu:25.04   "--volume 228890fe95…"   18 hours ago   Created                               gallant_gates
+686a0e9c65ae   ubuntu:25.04   "sleep infinity"         18 hours ago   Exited (137) 17 hours ago             priceless_turing
+7ee973e4741e   ubuntu:25.04   "bash"                   18 hours ago   Exited (130) 18 hours ago             compassionate_johnson
+7083b0630e4b   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               objective_euclid
+d99f96a0aa05   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             affectionate_williamson
+228890fe9575   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             quirky_mirzakhani
+docker ps -a -f name=focused_borg
+CONTAINER ID   IMAGE          COMMAND   CREATED        STATUS                      PORTS     NAMES
+8dbdc8c7f1b7   ubuntu:25.04   "bash"    18 hours ago   Exited (137) 17 hours ago             focused_borg
+Here’s the **full reference** for `docker ps --filter` (or `docker container ls --filter`) with all known filters and how you can **combine** them logically.
+
+---
+
+## **All `docker ps` Filters**
+
+You can combine **multiple filters** simply by repeating `-f` or `--filter`:
+
+```bash
+docker ps -a -f status=exited -f name=mycontainer
+```
+
+---
+
+### **1. `id=`**
+
+Match by **full or partial container ID**.
+
+```bash
+docker ps -a -f id=686a0e9c65ae
+```
+
+* Matches: Only that exact container.
+* Combine: Works with all others (`status`, `before`, etc.).
+
+---
+
+### **2. `name=`**
+
+Match by container name (substring match).
+
+```bash
+docker ps -a -f name=web
+```
+
+* Matches: Containers with `web` anywhere in the name.
+* Combine: Often with `status` or `before`.
+
+---
+
+### **3. `status=`**
+
+Match by container status:
+
+* `created` — Created but never started.
+* `restarting` — Restarting after a crash.
+* `running` — Currently running.
+* `removing` — Being removed.
+* `paused` — Paused state.
+* `exited` — Finished running.
+* `dead` — Failed, unrecoverable state.
+
+```bash
+docker ps -a -f status=running
+```
+
+---
+
+### **4. `ancestor=`**
+
+Match by **image name**, **tag**, or **image ID**.
+
+```bash
+docker ps -a -f ancestor=ubuntu:25.04
+```
+
+* Combine: Perfect for finding all containers from the same image.
+
+---
+
+### **5. `before=`**
+
+Match containers **created before** a specific container (name or ID).
+
+```bash
+docker ps -a -f before=focused_borg
+```
+
+---
+
+### **6. `since=`**
+
+Match containers **created after** a specific container.
+
+```bash
+docker ps -a -f since=angry_nightingale
+```
+
+---
+
+### **7. `volume=`**
+
+Match containers with a specific volume **mount path**.
+
+```bash
+docker ps -a -f volume=/data
+```
+
+---
+
+### **8. `network=`**
+
+Match containers connected to a specific network.
+
+```bash
+docker ps -a -f network=bridge
+```
+
+---
+
+### **9. `label=`**
+
+Match containers by Docker label.
+
+```bash
+docker ps -a -f label=maintainer=John
+```
+
+* Just key: `-f label=env`
+* Key=Value: `-f label=env=prod`
+
+---
+
+### **10. `health=`**
+
+Match by health check status:
+
+* `starting`
+* `healthy`
+* `unhealthy`
+* `none` (no healthcheck defined)
+
+```bash
+docker ps -a -f health=healthy
+```
+
+---
+
+## **Combining Filters**
+
+Just repeat the `-f` flag:
+
+```bash
+docker ps -a \
+  -f status=exited \
+  -f ancestor=ubuntu:25.04 \
+  -f before=focused_borg
+```
+
+This is **AND logic** — a container must match **all** filters to appear.
+
+---
+
+## **Pro Tip — List Only IDs**
+
+When scripting:
+
+```bash
+docker ps -aq -f status=exited -f ancestor=ubuntu:25.04
+```
+
+---
+Alright — --format in docker ps is where you stop being at the mercy of Docker’s default table and start shaping the output exactly the way you want.
+
+It uses Go templates (the same templating engine Docker uses internally).
+
+Basic Usage
+docker ps --format "{{.ID}}: {{.Image}}"
+
+
+Outputs something like:
+
+c8c5dd363b03: ubuntu:25.04
+7083b0630e4b: ubuntu:25.04
+
+Common Built-in Placeholders
+Placeholder	Meaning
+{{.ID}}	Short container ID
+{{.Image}}	Image name used
+{{.Command}}	Command run in container
+{{.CreatedAt}}	Creation time
+{{.RunningFor}}	Human-readable uptime
+{{.Ports}}	Published ports
+{{.Status}}	Current container status
+{{.Size}}	Size (if using --size)
+{{.Names}}	Container names
+{{.Labels}}	All labels as a map
+{{.Mounts}}	Mount points
+Table Format
+
+If you want headers:
+```bash
+docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Status}}"
+```
+
+docker ps -a --format "table {{.ID}} --> {{.Names}}"
+CONTAINER ID --> NAMES
+c8c5dd363b03 --> gallant_gates
+686a0e9c65ae --> priceless_turing
+7ee973e4741e --> compassionate_johnson
+7083b0630e4b --> objective_euclid
+d99f96a0aa05 --> affectionate_williamson
+228890fe9575 --> quirky_mirzakhani
+8dbdc8c7f1b7 --> focused_borg
+4479c45530e3 --> modest_fermat
+b10db0399e39 --> angry_nightingale
+15dad1163f48 --> flamboyant_williamson
+
+docker ps -a -n 3
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                      PORTS     NAMES
+c8c5dd363b03   ubuntu:25.04   "--volume 228890fe95…"   18 hours ago   Created                               gallant_gates
+686a0e9c65ae   ubuntu:25.04   "sleep infinity"         18 hours ago   Exited (137) 17 hours ago             priceless_turing
+7ee973e4741e   ubuntu:25.04   "bash"                   18 hours ago   Exited (130) 18 hours ago             compassionate_johnson
+
+docker ps -a --last 5
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS                      PORTS     NAMES
+c8c5dd363b03   ubuntu:25.04   "--volume 228890fe95…"   18 hours ago   Created                               gallant_gates
+686a0e9c65ae   ubuntu:25.04   "sleep infinity"         18 hours ago   Exited (137) 17 hours ago             priceless_turing
+7ee973e4741e   ubuntu:25.04   "bash"                   18 hours ago   Exited (130) 18 hours ago             compassionate_johnson
+7083b0630e4b   ubuntu:25.04   "bash"                   18 hours ago   Exited (0) 18 hours ago               objective_euclid
+d99f96a0aa05   ubuntu:25.04   "bash"                   18 hours ago   Exited (137) 17 hours ago             affectionate_williamson
+
+docker ps -a \
+--no-trunc \
+--format "table {{.ID}} - {{.Names}} - {{.Size}}" \
+-f status=exited \
+-f exited=137
+CONTAINER ID - NAMES - SIZE
+686a0e9c65aea057544b947fe03c66afe28546e852f0bc13f8aff931b0ca919b - priceless_turing - 39.3MB (virtual 116MB)
+d99f96a0aa05db6491b7cb1335258fc782682fc0597cf2973d08289f7f73de64 - affectionate_williamson - 8B (virtual 77MB)
+228890fe957507ff548c570f29c3a799da8ca85bd80ba51dcd3ce10c37965015 - quirky_mirzakhani - 8B (virtual 77MB)
+8dbdc8c7f1b71057d6bf01f63a905ddac080ba109abece26f093c635972694c5 - focused_borg - 8B (virtual 77MB)
+4479c45530e31e3cd8985ba7cb423873ff63e890cf23260bc9aef8b2a9217cf4 - modest_fermat - 0B (virtual 77MB)
+
+docker run <kali img>
+┌──(root㉿eb3893ba6cd3)-[/]
+└─# hostname -I
+172.17.0.2 
+
+┌──(root㉿eb3893ba6cd3)-[/]
+└─# ip addr show eth0
+bash: ip: command not found
+
+┌──(root㉿eb3893ba6cd3)-[/]
+└─# nmap 172.17.0.2
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-08-14 08:48 UTC
+Nmap scan report for eb3893ba6cd3 (172.17.0.2)
+Host is up (0.0000030s latency).
+All 1000 scanned ports on eb3893ba6cd3 (172.17.0.2) are in ignored states.
+Not shown: 1000 closed tcp ports (reset)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.09 seconds
+
+┌──(root㉿eb3893ba6cd3)-[/]
+└─# nmap -p- 172.17.0.2
+Starting Nmap 7.95 ( https://nmap.org ) at 2025-08-14 08:51 UTC
+Nmap scan report for eb3893ba6cd3 (172.17.0.2)
+Host is up (0.0000030s latency).
+All 65535 scanned ports on eb3893ba6cd3 (172.17.0.2) are in ignored states.
+Not shown: 65535 closed tcp ports (reset)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.50 seconds
