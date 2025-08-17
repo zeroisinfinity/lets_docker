@@ -61,4 +61,5 @@ Thumbs.db
 # Logs
 logs/
 *.log
+GUIDE_my.md
 
