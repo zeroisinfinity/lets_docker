@@ -55,7 +55,7 @@ Thumbs.db
 
 # --- Project specific ---
 # Don’t commit extracted zip contents or mounted junk
-no_copy_test/
+
 *.zip
 
 # Logs

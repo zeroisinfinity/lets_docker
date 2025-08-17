@@ -1,0 +1,19 @@
+# Ignore all Python cache and IDE files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore local IDE/project config
+.idea/
+*.iml
+.vscode/
+
+# Ignore local database (if not needed in Docker)
+*.sqlite3
+
+# Ignore other temporary or unneeded files
+updated_zip/
+Dockerfile
+mount-1.0/
+area51/
+project/

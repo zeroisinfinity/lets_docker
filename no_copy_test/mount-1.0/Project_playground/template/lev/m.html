@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Difficulty</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0d1117; /* Dark background */
+            font-family: 'Arial', sans-serif;
+            color: #c9d1d9; /* Light text color */
+        }
+
+        /* Container */
+        .container {
+            text-align: center;
+            background: #21262d; /* Dark container background */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        /* Heading */
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #58a6ff; /* Blue accent color */
+        }
+
+        /* Difficulty Buttons */
+        .difficulty-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .difficulty-buttons button {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            background: #58a6ff; /* Blue button */
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .difficulty-buttons button:hover {
+            background: #1f6feb; /* Darker blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Domain Name */
+        #domain-name {
+            color: #58a6ff; /* Blue accent color */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Difficulty for <span id="domain-name"></span></h1>
+        <div class="difficulty-buttons">
+            <form action="{% url 'frontend_questions' %}" method="get"> <button onclick="chooseDifficulty('hard')">Hard</button>
+            </form>
+            <form action="{% url 'frontend_questions' %}" method="get"><button onclick="chooseDifficulty('medium')">Medium</button>
+                            </form>
+
+            <form action="{% url 'frontend_questions' %}" method="get"><button onclick="chooseDifficulty('easy')">Easy</button>
+                            </form>
+
+        </div>
+    </div>
+
+    <script>
+        // Get the selected domain from the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const domain = urlParams.get('domain');
+
+        // Display the selected domain
+        document.getElementById('domain-name').textContent = domain;
+
+        function chooseDifficulty(difficulty) {
+            alert(`You selected ${domain} with ${difficulty} difficulty.`);
+            // Redirect to another page or perform an action
+            // Example: window.location.href = `/quiz/${domain}/${difficulty}/`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+Field,Type,Null,Key,Default,Extra
+id,bigint,NO,PRI,NULL,auto_increment
+title,varchar(100),NO,,NULL,
+image_url,varchar(200),NO,,NULL,
+idd,int,NO,,NULL,
