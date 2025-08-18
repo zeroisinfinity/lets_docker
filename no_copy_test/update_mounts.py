@@ -68,10 +68,6 @@ def main():
 
     # Build the command as a list of separate arguments
     # Mount the entire bash_files directory to /usr/local/bin
-    docker_command = ['./run_docker_with_db.sh']
-
-    # Now, call your run_command function
-    run_command(docker_command, f"mounting and running {args.sh_name} in mount_trekker:01.09")
 
 
 if __name__ == '__main__':
