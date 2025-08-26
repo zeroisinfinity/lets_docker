@@ -8,6 +8,21 @@ __pycache__/
 *.iml
 .vscode/
 
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore virtual environment directories
+venv/
+env/
+.venv/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
 # Ignore local database (if not needed in Docker)
 *.sqlite3
 
