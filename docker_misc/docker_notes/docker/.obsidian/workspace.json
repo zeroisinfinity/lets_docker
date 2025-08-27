@@ -11,10 +11,17 @@
             "id": "78493e26b93f900e",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "canvas",
+              "state": {
+                "file": "Untitled 1.canvas",
+                "viewState": {
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 0
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "Untitled 1"
             }
           }
         ]
@@ -164,7 +171,9 @@
   },
   "active": "78493e26b93f900e",
   "lastOpenFiles": [
-    "Untitled.canvas",
-    "Welcome.md"
+    "2025-08-27.md",
+    "Untitled 1.canvas",
+    "Welcome.md",
+    "Untitled.canvas"
   ]
 }
