@@ -13,6 +13,17 @@ A developer-friendly, Docker-powered Django environment with MySQL integration, 
 
 
 ```mermaid
+%%{init: {
+    'theme': 'base',
+    'themeVariables': {
+        'fontFamily': 'Arial',
+        'fontSize': '14px'
+    },
+    'flowchart': {
+        'useMaxWidth': true,
+        'htmlLabels': true
+    }
+}}%%
 flowchart TB
     %% Host Layer
     subgraph "Host Machine"
