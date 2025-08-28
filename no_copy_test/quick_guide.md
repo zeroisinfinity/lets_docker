@@ -14,6 +14,7 @@ chmod +x install_nav.sh navigate.sh
 ```
 ```bash
 # Run the installer (will ask for sudo password)
+cd bash_files
 ./install_nav.sh
 ```
 # Set your project directory
