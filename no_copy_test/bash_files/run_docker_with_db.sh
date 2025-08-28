@@ -14,7 +14,7 @@ if [ -f .env ]; then
     echo "📄 Loading environment variables from .env file..."
     set -a
     # shellcheck source=.env
-    source .env
+    source ../creds/.env
     set +a
     echo "✅ Environment variables loaded: DB_NAME=${DB_NAME}, DB_USER=${DB_USER}"
 else
@@ -62,6 +62,7 @@ echo "---"
 # Step 2: Run the user's Docker container
 echo "🐛 Running your Docker container. Press Ctrl+C here to stop it."
 echo "   Your app should be available at http://localhost:8000"
+cd ..
 docker run --rm \
   -v "$(pwd)/updated_zip/Project_playground.zip:/app/Project_playground.zip" \
   -v "$(pwd)/bash_files/entrypoint.sh:/usr/local/bin/entrypoint.sh" \
