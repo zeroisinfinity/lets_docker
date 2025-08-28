@@ -14,5 +14,5 @@ fi
 echo "---"
 echo "🚀 Building mount:trekker:01.09..."
 echo "---"
-
+cd .. && cd docker-related
 docker build -t mount_trekker:01.09 .
