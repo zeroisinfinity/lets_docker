@@ -9,10 +9,10 @@ from getpass import getpass
 DJANGO_PROJECT_NAME = 'Project_playground'
 
 # Path to the manage.py file
-MANAGE_PY_PATH = os.path.join('mount-1.0', DJANGO_PROJECT_NAME, 'manage.py')
+MANAGE_PY_PATH = os.path.join('../mount-1.0', DJANGO_PROJECT_NAME, 'manage.py')
 
-# Name of the initial data SQL file
-INITIAL_DATA_SQL = 'initial_data.sql'
+# Path to the initial data SQL file (relative to this script)
+INITIAL_DATA_SQL = os.path.join('..', 'datasets_django', 'initial_data.sql')
 
 # --- Helper Functions ---
 

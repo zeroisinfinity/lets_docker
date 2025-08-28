@@ -15,7 +15,7 @@ env/
 .venv/
 
 # Secrets
-.env
+creds/.env
 area51/
 
 # Databases

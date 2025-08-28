@@ -27,7 +27,7 @@ env/
 *.sqlite3
 
 # Ignore other temporary or unneeded files
-updated_zip/
+../updated_zip/
 Dockerfile
 mount-1.0/
 area51/

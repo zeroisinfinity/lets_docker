@@ -6,7 +6,7 @@
 ## Navigation System Setup
 First, set up the navigation system for easier directory access:
 
-### run in no_copy_test directory
+### RUN in lets_docker/no_copy_test/bash_files directory
 ```bash
 # Make the scripts executable
 chmod +x install_nav.sh navigate.sh
@@ -18,6 +18,7 @@ chmod +x install_nav.sh navigate.sh
 # Set your project directory
 ```bash
 source ~/.bashrc
+cd ..
 nav set $(pwd)
 ```
 # Start using the navigation
@@ -28,11 +29,8 @@ nav set $(pwd)
 ### STEP 1: Build the Docker Image
 ```bash
 # Make scripts executable
-nav .
-chmod +x ./build_img.sh ./run_docker_with_db.sh
 nav bash_files
-chmod +x entrypoint.sh
-nav .
+chmod +x ./build_img.sh ./run_docker_with_db.sh ./entrypoint.sh
 ./build_img.sh
 ```
 
@@ -54,24 +52,26 @@ quit
 *if you are using the cli setup, you can skip this step.*
 *Option 1: Interactive Setup*
 ```bash
-nav .
+nav creds
 python3 desktopish.py
 ```
 
 *Option 2: Non-interactive Setup*
 ```bash
+nav creds
 python3 desktopish.py --no-input --db-user 'your_user' \
   --db-password 'your_password' --django-secret-key 'your_secret_key'
 ```
 
 ### STEP 3: Update Mounts (if needed)
 ```bash
-nav .
+nav mount-1.0
 python3 update_mounts.py
 ```
 
 ### STEP 4: Package the Project
 ```bash
+nav .
 mkdir -p updated_zip
 cd mount-1.0 && zip -r "../updated_zip/Project_playground.zip" "Project_playground"
 nav .
@@ -79,7 +79,7 @@ nav .
 
 ### STEP 5: Run the Application
 ```bash
-nav .
+nav bash_files
 ./run_docker_with_db.sh
 ```
 

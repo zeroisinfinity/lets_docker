@@ -29,30 +29,28 @@ cd lets_docker/no_copy_test/
 
 ### Step 2: Build Docker Image
 ```bash
-  chmod +x ./build_img.sh
-chmod +x ./run_docker_with_db.sh
-cd ./bash_files 
-chmod +x ./entrypoint.sh
-cd ..
+  cd ./bash_files
+chmod +x ./build_img.sh ./run_docker_with_db.sh ./entrypoint.sh
 ./build_img.sh
+cd ..
 ```
 
 ### Step 3: Configure Environment
 
 **Option A: Interactive Setup (Recommended)**
 ```bash
-  python3 desktopish.py
+  python3 creds/desktopish.py
 ```
 
 **Option B: CLI Setup**
 ```bash
-  python3 desktopish.py --no-input --db-user 'your_user' --db-password 'your_password' --django-secret-key 'your_secret_key'
+  python3 creds/desktopish.py --no-input --db-user 'your_user' --db-password 'your_password' --django-secret-key 'your_secret_key'
 ```
 
 ### Step 4: Update Mount Configuration (if needed)
 If you've made changes to bash files, run:
 ```bash
-  python3 update_mounts.py
+  python3 mount-1.0/update_mounts.py
 ```
 
 ### Step 5: Package Project (Optional)
@@ -64,7 +62,7 @@ zip -r "~/lets_docker/no_copy_test/updated_zip/project_playground.zip" "Project_
 
 ### Step 6: Launch Application
 ```bash
-  ./run_docker_with_db.sh
+  ./bash_files/run_docker_with_db.sh
 ```
 
 Your Django application will be available at: **http://localhost:8000**
@@ -77,16 +75,17 @@ no_copy_test/
 ├── bash_files/            # Docker entrypoint and shell scripts
 ├── mount-1.0/             # Django project mount point
 ├── updated_zip/           # Packaged project archives
-├── .dockerignore          # Docker build exclusions
+├── docker-related/.dockerignore # Docker build exclusions
 ├── .gitignore            # Git exclusions
-├── Dockerfile            # Docker image configuration
+├── docker-related/       # Docker-related configs
+├── docker-related/Dockerfile # Docker image configuration
 ├── GUIDE2.md             # Detailed setup instructions
-├── build_img.sh          # Docker image build script
-├── desktopish.py         # Interactive environment setup
-├── initial_data.sql      # Database initialization data
+├── creds/desktopish.py   # Interactive environment setup
+├── datasets_django/initial_data.sql # Database initialization data
 ├── requirements.txt      # Python dependencies
-├── run_docker_with_db.sh # Application launcher
-└── update_mounts.py      # Mount configuration updater
+├── bash_files/build_img.sh          # Docker image build script
+├── bash_files/run_docker_with_db.sh # Application launcher
+└── mount-1.0/update_mounts.py      # Mount configuration updater
 ```
 
 ## 🔧 Configuration
@@ -118,8 +117,8 @@ FLUSH PRIVILEGES;
 
 **2. Permission Denied Errors**
 ```bash
-chmod +x ./build_img.sh
-chmod +x ./run_docker_with_db.sh
+chmod +x ./bash_files/build_img.sh
+chmod +x ./bash_files/run_docker_with_db.sh
 chmod +x ./bash_files/entrypoint.sh
 ```
 
@@ -142,11 +141,11 @@ The SQL file uses `INSERT IGNORE` to prevent duplicate key errors on re-runs.
 
 ## 🚀 Development Workflow
 
-1. **Initial Setup**: Run through steps 1-6 once
+1. **Initial Setup**: Run through steps 1–6 once
 2. **Daily Development**: Use `./run_docker_with_db.sh` to start
 3. **Code Changes**: Files are mounted, so changes reflect immediately
-4. **Database Changes**: Update `initial_data.sql` and restart container
-5. **Configuration Changes**: Re-run `python3 desktopish.py`
+4. **Database Changes**: Update `datasets_django/initial_data.sql` and restart container
+5. **Configuration Changes**: Re-run `python3 creds/desktopish.py`
 
 ## 📚 Additional Resources
 
@@ -162,10 +161,6 @@ The SQL file uses `INSERT IGNORE` to prevent duplicate key errors on re-runs.
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ## 🆘 Support
 
