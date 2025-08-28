@@ -11,6 +11,82 @@ A developer-friendly, Docker-powered Django environment with MySQL integration, 
 - **Database Initialization**: Automated SQL data loading with sample data
 - **Development Tools**: Hot-reload, debugging support, and comprehensive logging
 
+
+```mermaid
+flowchart TB
+    %% Host Layer
+    subgraph "Host Machine"
+        direction TB
+        build_img["build_img.sh"]:::hostblue
+        desktopish["desktopish.py"]:::hostblue
+        update_mounts["update_mounts.py"]:::hostblue
+        navigate["navigate.sh"]:::hostblue
+        requirements["requirements.txt"]:::hostblue
+        docs["README.md / quick_guide.md"]:::hostblue
+        initial_sql["initial_data.sql"]:::hostblue
+        env[".env (generated)"]:::hostblue
+        run_script["run_docker_with_db.sh"]:::hostblue
+        project_code["Project_playground Source"]:::hostblue
+    end
+
+    %% Docker Orchestration Layer
+    subgraph "Docker Engine" 
+        direction TB
+        engine["Docker Engine"]:::orch
+        image["Django Dev Image"]:::orch
+    end
+
+    %% Containers
+    subgraph "Containers"
+        direction TB
+        django["Django App Container"]:::service
+        mysql["MySQL Container"]:::service
+        ext_mysql["External MySQL Host"]:::external
+        entrypoint["entrypoint.sh"]:::orch
+    end
+
+    %% Build and Configure Flow
+    build_img -->|"builds image"| engine
+    engine -->|"creates"| image
+    desktopish -->|"generates"| env
+    update_mounts -->|"configures mounts"| project_code
+    run_script -->|"launches"| django
+    run_script -->|"launches"| mysql
+
+    %% Volume Mounts
+    project_code -->|"mount /no_copy_test/mount-1.0 → /app"| django
+    env -->|"mount .env → container env"| django
+
+    %% Entrypoint and Initialization
+    image -->|"uses entrypoint"| entrypoint
+    entrypoint -->|"runs migrations & loads"| initial_sql
+    entrypoint -->|"executes"| django
+
+    %% Service Interaction
+    django -->|"connects on DB_HOST:DB_PORT"| mysql
+    django -->|"connects on DB_HOST:DB_PORT"| ext_mysql
+
+    %% Click Events
+    click build_img "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/build_img.sh"
+    click desktopish "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/desktopish.py"
+    click update_mounts "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/update_mounts.py"
+    click navigate "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/navigate.sh"
+    click requirements "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/requirements.txt"
+    click docs "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/README.md"
+    click initial_sql "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/initial_data.sql"
+    click run_script "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/run_docker_with_db.sh"
+    click entrypoint "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/bash_files/entrypoint.sh"
+    click project_code "https://github.com/zeroisinfinity/lets_docker/tree/main/no_copy_test/mount-1.0/Project_playground/"
+    click image "https://github.com/zeroisinfinity/lets_docker/tree/main/no_copy_test/Dockerfile"
+    click image "https://github.com/zeroisinfinity/lets_docker/blob/main/.dockerignore"
+    
+    %% Styles
+    classDef hostblue fill:#AED6F1,stroke:#1F618D,color:#1F618D
+    classDef orch fill:#ABEBC6,stroke:#196F3D,color:#196F3D
+    classDef service fill:#F5B041,stroke:#B9770E,color:#78281F
+    classDef external fill:#D7DBDD,stroke-dasharray: 5 5,color:#424949
+```
+
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -128,78 +204,4 @@ If you encounter issues:
 
 ---
 
-```mermaid
-flowchart TB
-    %% Host Layer
-    subgraph "Host Machine"
-        direction TB
-        build_img["build_img.sh"]:::hostblue
-        desktopish["desktopish.py"]:::hostblue
-        update_mounts["update_mounts.py"]:::hostblue
-        navigate["navigate.sh"]:::hostblue
-        requirements["requirements.txt"]:::hostblue
-        docs["README.md / quick_guide.md"]:::hostblue
-        initial_sql["initial_data.sql"]:::hostblue
-        env[".env (generated)"]:::hostblue
-        run_script["run_docker_with_db.sh"]:::hostblue
-        project_code["Project_playground Source"]:::hostblue
-    end
-
-    %% Docker Orchestration Layer
-    subgraph "Docker Engine" 
-        direction TB
-        engine["Docker Engine"]:::orch
-        image["Django Dev Image"]:::orch
-    end
-
-    %% Containers
-    subgraph "Containers"
-        direction TB
-        django["Django App Container"]:::service
-        mysql["MySQL Container"]:::service
-        ext_mysql["External MySQL Host"]:::external
-        entrypoint["entrypoint.sh"]:::orch
-    end
-
-    %% Build and Configure Flow
-    build_img -->|"builds image"| engine
-    engine -->|"creates"| image
-    desktopish -->|"generates"| env
-    update_mounts -->|"configures mounts"| project_code
-    run_script -->|"launches"| django
-    run_script -->|"launches"| mysql
-
-    %% Volume Mounts
-    project_code -->|"mount /no_copy_test/mount-1.0 → /app"| django
-    env -->|"mount .env → container env"| django
-
-    %% Entrypoint and Initialization
-    image -->|"uses entrypoint"| entrypoint
-    entrypoint -->|"runs migrations & loads"| initial_sql
-    entrypoint -->|"executes"| django
-
-    %% Service Interaction
-    django -->|"connects on DB_HOST:DB_PORT"| mysql
-    django -->|"connects on DB_HOST:DB_PORT"| ext_mysql
-
-    %% Click Events
-    click build_img "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/build_img.sh"
-    click desktopish "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/desktopish.py"
-    click update_mounts "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/update_mounts.py"
-    click navigate "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/navigate.sh"
-    click requirements "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/requirements.txt"
-    click docs "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/README.md"
-    click initial_sql "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/initial_data.sql"
-    click run_script "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/run_docker_with_db.sh"
-    click entrypoint "https://github.com/zeroisinfinity/lets_docker/blob/main/no_copy_test/bash_files/entrypoint.sh"
-    click project_code "https://github.com/zeroisinfinity/lets_docker/tree/main/no_copy_test/mount-1.0/Project_playground/"
-    click image "https://github.com/zeroisinfinity/lets_docker/tree/main/no_copy_test/Dockerfile"
-    click image "https://github.com/zeroisinfinity/lets_docker/blob/main/.dockerignore"
-    
-    %% Styles
-    classDef hostblue fill:#AED6F1,stroke:#1F618D,color:#1F618D
-    classDef orch fill:#ABEBC6,stroke:#196F3D,color:#196F3D
-    classDef service fill:#F5B041,stroke:#B9770E,color:#78281F
-    classDef external fill:#D7DBDD,stroke-dasharray: 5 5,color:#424949
-```
 **Happy Coding! 🎉**
