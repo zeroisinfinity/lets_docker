@@ -24,22 +24,43 @@ install_nav() {
         return 1
     fi
 
-    # Ask for password
+    # Get current username
+    current_user=$(whoami)
+    
+    # Ask for password with username
     echo -e "${YELLOW}This operation requires administrative privileges.${NC}"
-    read -s -p "$(echo -e "${YELLOW}[sudo] password: ${NC}")" password
-    echo ""
+    read -s -p "$(echo -e "${YELLOW}[sudo] password for $current_user: ${NC}")" password
+    echo -e "\n"
 
     # Try to get root privileges
     echo "$password" | sudo -S -v >/dev/null 2>&1
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: Incorrect password or sudo access denied${NC}"
+        echo -e "${RED}✗ Incorrect password or sudo access denied${NC}"
         return 1
     fi
+    
+    # Clear the password from memory after use
+    unset password
 
     # Now perform the installation with sudo
     echo -e "${YELLOW}Installing system-wide...${NC}"
-    echo "$password" | sudo -S cp navigate.sh /usr/local/bin/nav || { echo -e "${RED}Failed to copy file${NC}"; return 1; }
-    echo "$password" | sudo -S chmod +x /usr/local/bin/nav || { echo -e "${RED}Failed to set permissions${NC}"; return 1; }
+    
+    # Create a temporary file with elevated permissions
+    temp_script=$(mktemp)
+    cat navigate.sh > "$temp_script"
+    
+    # Install with proper permissions
+    if sudo cp "$temp_script" /usr/local/bin/nav && \
+       sudo chmod +x /usr/local/bin/nav; then
+        echo -e "${GREEN}✓ Navigation script installed successfully${NC}"
+    else
+        echo -e "${RED}✗ Installation failed${NC}"
+        rm -f "$temp_script"
+        return 1
+    fi
+    
+    # Clean up
+    rm -f "$temp_script"
 
     # Add to shell config
     for rcfile in ~/.bashrc ~/.zshrc; do

@@ -73,7 +73,7 @@ python3 update_mounts.py
 ### STEP 4: Package the Project
 ```bash
 mkdir -p updated_zip
-cd mount-1.0 && zip -r "../updated_zip/project_playground.zip" "Project_playground"
+cd mount-1.0 && zip -r "../updated_zip/Project_playground.zip" "Project_playground"
 nav .
 ```
 
