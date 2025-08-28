@@ -364,15 +364,14 @@ cd mount-1.0 && zip -r "../updated_zip/Project_playground.zip" "Project_playgrou
 ## 🎨 Enhanced Mermaid Flow Overview
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'Arial', 'fontSize': '14px' }}}%%
 flowchart TD
     %% ========== STYLING ==========
-    classDef startNode fill:#e3f2fd,stroke:#1565c0,stroke-width:2.5px,color:#0d47a1,font-weight:bold,shadow:3px 3px 5px rgba(0,0,0,0.1)
-    classDef buildNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c,shadow:2px 2px 4px rgba(0,0,0,0.08)
-    classDef configNode fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#e65100,shadow:2px 2px 4px rgba(0,0,0,0.08)
-    classDef runNode fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20,shadow:2px 2px 4px rgba(0,0,0,0.08)
-    classDef containerNode fill:#ffebee,stroke:#c62828,stroke-width:2.5px,color:#b71c1c,font-weight:bold,shadow:3px 3px 5px rgba(0,0,0,0.1)
-    classDef successNode fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px,color:#1b5e20,font-weight:bold,font-size:16px,shadow:4px 4px 8px rgba(0,0,0,0.15)
+    classDef startNode fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#0d47a1,font-weight:bold
+    classDef buildNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c
+    classDef configNode fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#e65100
+    classDef runNode fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20
+    classDef containerNode fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#b71c1c,font-weight:bold
+    classDef successNode fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px,color:#1b5e20,font-weight:bold
     
     %% ========== NODES ==========
     A["📦 Clone Repository<br/><span style='font-size:12px;color:#555'>Get the project files</span><hr style='margin:5px 0'/><code>git clone https://github.com/.../lets_docker.git</code>"]
@@ -439,13 +438,12 @@ flowchart TD
 ```
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'Arial', 'fontSize': '14px' }}}%%
 graph LR
     %% ========== STYLING ==========
-    classDef hostFile fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#0d47a1,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.08)
-    classDef containerFile fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#e65100,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.08)
-    classDef database fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.08)
-    classDef webapp fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.1)
+    classDef hostFile fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#0d47a1
+    classDef containerFile fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#e65100
+    classDef database fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20
+    classDef webapp fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c
     
     %% ========== NODES ==========
     subgraph "📂 Host Environment"
@@ -495,13 +493,13 @@ graph LR
     class G,H database
     
     %% ========== GRAPH STYLING ==========
-    linkStyle default fill:none,stroke:#888,stroke-width:2px,stroke-dasharray:3
+    linkStyle default stroke:#888,stroke-width:2px
     
     %% Special connection styles
-    linkStyle 0,1 stroke:#1565c0,stroke-dasharray:0
-    linkStyle 2 stroke:#7b1fa2,stroke-dasharray:0
-    linkStyle 3,4 stroke:#ef6c00,stroke-dasharray:0
-    linkStyle 5 stroke:#2e7d32,stroke-dasharray:0
+    linkStyle 0,1 stroke:#1565c0
+    linkStyle 2 stroke:#7b1fa2
+    linkStyle 3,4 stroke:#ef6c00
+    linkStyle 5 stroke:#2e7d32
 ```
 
 ---
