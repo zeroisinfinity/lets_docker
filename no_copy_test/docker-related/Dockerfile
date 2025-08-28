@@ -15,7 +15,7 @@ COPY ./requirements.txt /tmp/
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r /tmp/requirements.txt
 
-COPY ../bash_files/entrypoint.sh /usr/local/bin/
+COPY /bash_files/entrypoint.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
