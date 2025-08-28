@@ -59,7 +59,6 @@ sudo systemctl restart mysql
 echo "✅ MySQL is now temporarily listening on 0.0.0.0."
 echo "---"
 
-python3 desktopish.py
 # Step 2: Run the user's Docker container
 echo "🐛 Running your Docker container. Press Ctrl+C here to stop it."
 echo "   Your app should be available at http://localhost:8000"
