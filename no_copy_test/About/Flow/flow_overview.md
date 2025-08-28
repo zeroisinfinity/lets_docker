@@ -364,32 +364,36 @@ cd mount-1.0 && zip -r "../updated_zip/Project_playground.zip" "Project_playgrou
 ## 🎨 Enhanced Mermaid Flow Overview
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'Arial', 'fontSize': '14px' }}}%%
 flowchart TD
-    %% Styling
-    classDef startNode fill:#e1f5fe,stroke:#0277bd,stroke-width:3px
-    classDef buildNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    classDef configNode fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
-    classDef runNode fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
-    classDef containerNode fill:#ffebee,stroke:#c62828,stroke-width:2px
+    %% ========== STYLING ==========
+    classDef startNode fill:#e3f2fd,stroke:#1565c0,stroke-width:2.5px,color:#0d47a1,font-weight:bold,shadow:3px 3px 5px rgba(0,0,0,0.1)
+    classDef buildNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c,shadow:2px 2px 4px rgba(0,0,0,0.08)
+    classDef configNode fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#e65100,shadow:2px 2px 4px rgba(0,0,0,0.08)
+    classDef runNode fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20,shadow:2px 2px 4px rgba(0,0,0,0.08)
+    classDef containerNode fill:#ffebee,stroke:#c62828,stroke-width:2.5px,color:#b71c1c,font-weight:bold,shadow:3px 3px 5px rgba(0,0,0,0.1)
+    classDef successNode fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px,color:#1b5e20,font-weight:bold,font-size:16px,shadow:4px 4px 8px rgba(0,0,0,0.15)
     
-    A["📦 Clone repo<br/>lets_docker/no_copy_test<br/>🌟 GET READY!"]
-    B["🧭 Optional: Install nav<br/>Quick directory magic!<br/>🗺️ NAVIGATE LIKE A PRO"]
-    C["🏗️ Build image<br/>bash_files/build_img.sh<br/>🐳 DOCKER POWER!"]
-    D["🔐 Generate Secret Key<br/>Django shell magic<br/>🎲 RANDOM & SECURE"]
-    E["⚙️ Configure Environment<br/>🔧 Interactive Setup"]
-    F["⚙️ Configure Environment<br/>🤖 CLI Setup"]
-    G["🗄️ DB Operations<br/>✅ Check → 🗄️ Create → 🌱 Seed"]
-    H["📦 Package Project<br/>ZIP creation magic<br/>📋 READY TO MOUNT"]
-    I["🚀 Launch Application<br/>bash_files/run_docker_with_db.sh<br/>🎯 SHOWTIME!"]
-    J["🐳 Container Startup<br/>📦 Unzip → 🔄 Migrate → 🌐 Serve"]
-    K["🎉 App Running!<br/>http://localhost:8000<br/>🌟 SUCCESS!"]
+    %% ========== NODES ==========
+    A["📦 Clone Repository<br/><span style='font-size:12px;color:#555'>Get the project files</span><hr style='margin:5px 0'/><code>git clone https://github.com/.../lets_docker.git</code>"]
+    B["🧭 Install Navigation<br/><span style='font-size:12px;color:#555'>Optional: Quick directory access</span><hr style='margin:5px 0'/><code>./install_nav.sh</code>"]
+    C["🏗️ Build Docker Image<br/><span style='font-size:12px;color:#555'>Create application container</span><hr style='margin:5px 0'/><code>./build_img.sh</code>"]
+    D["🔐 Generate Secret Key<br/><span style='font-size:12px;color:#555'>Secure your application</span><hr style='margin:5px 0'/><code>python3 manage.py shell</code>"]
+    E["⚙️ Configure Environment<br/><span style='font-size:12px;color:#555'>Setup database & settings</span><hr style='margin:5px 0'/><code>python3 desktopish.py</code>"]
+    F["⚙️ CLI Configuration<br/><span style='font-size:12px;color:#555'>Non-interactive setup</span><hr style='margin:5px 0'/><code>python3 desktopish.py --no-input ...</code>"]
+    G["🗄️ Database Setup<br/><span style='font-size:12px;color:#555'>Create & seed database</span><hr style='margin:5px 0'/>Auto-creates and populates"]
+    H["📦 Package Project<br/><span style='font-size:12px;color:#555'>Prepare for container</span><hr style='margin:5px 0'/><code>zip -r Project_playground.zip</code>"]
+    I["🚀 Launch Application<br/><span style='font-size:12px;color:#555'>Start the development server</span><hr style='margin:5px 0'/><code>./run_docker_with_db.sh</code>"]
+    J["🐳 Container Startup<br/><span style='font-size:12px;color:#555'>Docker magic happens here</span><hr style='margin:5px 0'/>Unpack → Migrate → Serve"]
+    K["🎉 Application Running!<br/><span style='font-size:12px;color:#2e7d32'>Your Django app is live at</span><hr style='margin:5px 0'/><span style='color:#1565c0;font-weight:bold'>http://localhost:8000</span>"]
     
-    %% Optional nav path
+    %% ========== CONNECTIONS ==========
+    %% Optional navigation path
     A --> B
     B -.->|Optional| C
     A --> C
     
-    %% Main flow
+    %% Main workflow
     C --> D
     D --> E
     D --> F
@@ -400,7 +404,7 @@ flowchart TD
     I --> J
     J --> K
     
-    %% Apply styling
+    %% ========== STYLE APPLICATION ==========
     A:::startNode
     B:::buildNode
     C:::buildNode
@@ -411,10 +415,11 @@ flowchart TD
     H:::runNode
     I:::runNode
     J:::containerNode
-    K:::containerNode
+    K:::successNode
     
-    %% Subgraphs for organization
+    %% ========== GROUPING ==========
     subgraph "🖥️ Host Environment"
+        direction TB
         A
         B
         C
@@ -427,54 +432,76 @@ flowchart TD
     end
     
     subgraph "🐳 Container Environment"
+        direction TB
         J
         K
     end
 ```
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontFamily': 'Arial', 'fontSize': '14px' }}}%%
 graph LR
-    %% Component Architecture Overview
-    classDef hostFile fill:#e3f2fd,stroke:#1565c0
-    classDef containerFile fill:#fff3e0,stroke:#ef6c00
-    classDef database fill:#e8f5e8,stroke:#2e7d32
-    classDef webapp fill:#fce4ec,stroke:#ad1457
+    %% ========== STYLING ==========
+    classDef hostFile fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#0d47a1,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.08)
+    classDef containerFile fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#e65100,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.08)
+    classDef database fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.08)
+    classDef webapp fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c,font-weight:500,shadow:2px 2px 4px rgba(0,0,0,0.1)
     
-    subgraph "📂 Host Files"
-        A[🔧 desktopish.py]
-        B[🏗️ build_img.sh]
-        C[🚀 run_docker_with_db.sh]
-        D[📦 Project_playground.zip]
+    %% ========== NODES ==========
+    subgraph "📂 Host Environment"
+        direction TB
+        A[🔧 desktopish.py<br/><span style='font-size:12px;color:#555'>Configuration & DB setup</span>]
+        B[🏗️ build_img.sh<br/><span style='font-size:12px;color:#555'>Docker image builder</span>]
+        C[🚀 run_docker_with_db.sh<br/><span style='font-size:12px;color:#555'>Application launcher</span>]
+        D[📦 Project_playground.zip<br/><span style='font-size:12px;color:#555'>Packaged Django project</span>]
     end
     
-    subgraph "🐳 Container"
-        E[🚪 entrypoint.sh]
-        F[🎮 Django App]
+    subgraph "🐳 Container Environment"
+        direction TB
+        E[🚪 entrypoint.sh<br/><span style='font-size:12px;color:#555'>Container initialization</span>]
+        F[🎮 Django Application<br/><span style='font-size:12px;color:#4a148c'>Web interface & logic</span>]
     end
     
-    subgraph "💾 Database"
-        G[🗄️ MySQL]
-        H[🌱 initial_data.sql]
+    subgraph "💾 Database System"
+        direction TB
+        G[🗄️ MySQL Database<br/><span style='font-size:12px;color:#1b5e20'>Data storage</span>]
+        H[🌱 initial_data.sql<br/><span style='font-size:12px;color:#1b5e20'>Seed data</span>]
     end
     
-    %% Connections
-    A --> G
-    A -.-> H
-    B --> E
-    C --> F
-    D --> F
-    E --> F
-    F --> G
+    %% ========== CONNECTIONS ==========
+    %% Configuration to Database
+    A -->|Configures| G
+    A -.->|Loads| H
     
-    %% Apply styles
-    A:::hostFile
-    B:::hostFile  
-    C:::hostFile
-    D:::hostFile
-    E:::containerFile
-    F:::webapp
-    G:::database
-    H:::database
+    %% Build to Container
+    B -->|Creates| E
+    
+    %% Launch to App
+    C -->|Starts| F
+    
+    %% Project to App
+    D -->|Contains| F
+    
+    %% Entrypoint to App
+    E -->|Initializes| F
+    
+    %% App to Database
+    F -->|Reads/Writes| G
+    
+    %% ========== STYLE APPLICATION ==========
+    class A,B,C,D hostFile
+    class E containerFile
+    class F webapp
+    class G,H database
+    
+    %% ========== GRAPH STYLING ==========
+    linkStyle default fill:none,stroke:#888,stroke-width:2px,stroke-dasharray:3
+    
+    %% Special connection styles
+    linkStyle 0,1 stroke:#1565c0,stroke-dasharray:0
+    linkStyle 2 stroke:#7b1fa2,stroke-dasharray:0
+    linkStyle 3,4 stroke:#ef6c00,stroke-dasharray:0
+    linkStyle 5 stroke:#2e7d32,stroke-dasharray:0
 ```
 
 ---
