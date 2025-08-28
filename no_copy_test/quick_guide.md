@@ -9,6 +9,7 @@ First, set up the navigation system for easier directory access:
 ### RUN in lets_docker/no_copy_test/bash_files directory
 ```bash
 # Make the scripts executable
+cd bash_files
 chmod +x install_nav.sh navigate.sh
 ```
 ```bash
