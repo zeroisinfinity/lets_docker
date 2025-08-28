@@ -58,7 +58,7 @@ python3 desktopish.py
 ```
 
 *Option 2: Non-interactive Setup*
-```bash
+```text
 nav creds
 python3 desktopish.py --no-input --db-user 'your_user' \
   --db-password 'your_password' --django-secret-key 'your_secret_key'
