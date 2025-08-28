@@ -154,9 +154,6 @@ def main():
 
     print_color("\n--- Setup Complete!---\"", 'green')
     print_color("You can now run the development server with:",'yellow')
-    print_color(f"If all credentials are correct, \n "
-                f"Navigate to root project dir and run \n"
-                f"'./bash_files/run_docker_with_db.sh'\n", 'yellow')
 
 if __name__ == '__main__':
     main()
