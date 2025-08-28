@@ -20,7 +20,6 @@ cd bash_files
 # Set your project directory
 ```bash
 source ~/.bashrc
-cd ..
 nav set $(pwd)
 ```
 # Start using the navigation
