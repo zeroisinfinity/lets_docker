@@ -63,7 +63,7 @@ def main():
     # This script assumes it is being run from the project root directory.
     # Construct the full path for the volume mount.
     # e.g., /home/user/project/bash_files/entrypoint.sh:/usr/local/bin/entrypoint.sh
-    run_command(['chmod','+x',f"../{os.getcwd()}/bash_files/{args.sh_name}"], f"chmod +x {os.getcwd()}/bash_files/{args.sh_name}")
+    run_command(['chmod','+x',f"/{os.getcwd()}/../bash_files/{args.sh_name}"], f"chmod +x {os.getcwd()}/bash_files/{args.sh_name}")
 
     # Build the command as a list of separate arguments
     # Mount the entire bash_files directory to /usr/local/bin
