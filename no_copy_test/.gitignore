@@ -13,6 +13,7 @@ __pycache__/
 venv/
 env/
 .venv/
+gunicorn_env/
 
 # Secrets
 creds/.env
