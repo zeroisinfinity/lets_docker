@@ -1,0 +1,69 @@
+# syntax=docker/dockerfile:1.7
+
+# Production Dockerfile (sample)
+# This image is intended for prod usage. It copies an "updated" ZIP artifact
+# into the image at build-time. Pass the path to your ZIP via --build-arg UPDATED_ZIP.
+# Example build:
+#   docker build \
+#     -f no_copy_test/prod-related/Dockerfile \
+#     --build-arg UPDATED_ZIP=dist/updated.zip \
+#     -t your-image:prod .
+
+ARG BASE_IMAGE=python:3.12-slim
+FROM ${BASE_IMAGE} AS runtime
+
+LABEL org.opencontainers.image.title="lets_docker prod image" \
+      org.opencontainers.image.description="Production image that embeds an updated ZIP artifact" \
+      org.opencontainers.image.source="https://example.com/your/repo" \
+      org.opencontainers.image.licenses="MIT"
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=Asia/Kolkata \
+    APP_HOME=/app \
+    ZIP_DIR=/opt/artifacts \
+    UPDATED_ZIP_NAME=updated.zip
+
+# Install only what is minimally required in prod. Add unzip to optionally extract the zip later.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      unzip tzdata ca-certificates \
+      default-libmysqlclient-dev \
+      build-essential \
+      pkg-config && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR ${APP_HOME}
+
+# Install Python deps if you ship them; optional for this sample. If not needed, remove this block.
+# Using a separate layer for requirements helps leverage Docker layer caching.
+COPY ./no_copy_test/requirements.txt /tmp/requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r /tmp/requirements.txt || true
+
+# Accept a build arg pointing to the updated zip file within the build context.
+# If not provided, it will look for no_copy_test/build/updated.zip by default (sample path).
+ARG UPDATED_ZIP=no_copy_test/build/updated.zip
+
+# Create destination directory for artifacts
+RUN mkdir -p ${ZIP_DIR}
+
+# Copy the updated zip into the image. Build will fail if the file is missing.
+# If you want a soft/fallback behavior, wrap with a multi-stage check or use --build-arg to a valid path.
+COPY ${UPDATED_ZIP} ${ZIP_DIR}/${UPDATED_ZIP_NAME}
+
+# Optionally, you can extract the zip into the app directory during build.
+# Uncomment the following line if you want to unpack at build-time:
+# RUN unzip -o ${ZIP_DIR}/${UPDATED_ZIP_NAME} -d ${APP_HOME}
+
+# Non-root user best practice (optional). Create and switch to a non-root user.
+RUN useradd -m -u 10001 appuser && chown -R appuser:appuser ${APP_HOME} ${ZIP_DIR}
+USER appuser
+
+EXPOSE 8000
+
+# Healthcheck sample (adjust to your app's actual endpoint or command)
+# HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget -qO- http://localhost:8000/health || exit 1
+
+# Entrypoint/CMD for prod. Replace with your app start command/script.
+# If your app reads and unzips on startup, do it here.
+# Example: unzip on first run if target dir is empty, then start the app.
+CMD ["/bin/bash", "-lc", "if [ -f '${ZIP_DIR}/${UPDATED_ZIP_NAME}' ] && [ -z \"$$(ls -A ${APP_HOME} 2>/dev/null)\" ]; then echo 'Unpacking updated artifact...'; unzip -o '${ZIP_DIR}/${UPDATED_ZIP_NAME}' -d '${APP_HOME}'; fi; echo 'Starting app...'; python -m http.server 8000 --directory '${APP_HOME}'"]

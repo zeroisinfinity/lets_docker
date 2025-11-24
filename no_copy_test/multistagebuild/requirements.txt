@@ -1,0 +1,4 @@
+django>=4.0
+mysqlclient
+python-dotenv
+gunicorn>=21.2.0

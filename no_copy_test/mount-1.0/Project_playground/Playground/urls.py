@@ -16,7 +16,9 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path , include
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from accounts_mode.views import modes
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -26,4 +28,4 @@ urlpatterns = [
     path('frontend-questions/',include('prob_statements.urls'))
 
     #path('',modes)
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

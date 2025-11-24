@@ -15,4 +15,4 @@ echo "---"
 echo "🚀 Building mount:trekker:01.09..."
 echo "---"
 cd ..
-docker build -t mount_trekker:01.09 -f docker-related/Dockerfile .
+docker build --network=host -t mount_trekker:01.09 -f docker-related/Dockerfile .

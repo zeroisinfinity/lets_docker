@@ -1,0 +1,140 @@
+# buildkitd.toml - tuned for a remote BuildKit daemon
+# Place at ./buildkitd.toml and mount into the container at /etc/buildkit/buildkitd.toml
+
+[worker.oci]
+    enable = true
+    platforms = ["linux/amd64" , "linux/arm64"]
+    snapshotter = "overlayfs"
+    rootless = false
+    noProcessSandbox = false
+
+    gc = true
+    gckeepgarbage = "5GB"
+    reservedSpace = "20%"
+    maxUsedSpace = "70%"
+    minFreeSpace = "5GB"
+
+    max-parallelism = 6
+    cniPoolSize = 20
+
+debug = true
+trace = true
+
+root = "/var/lib/buildkit"
+
+insecure-entitlements = ["network.host"]
+
+[log]
+    level = "info"
+    format = "text"
+
+[dns]
+    nameservers = ["1.1.1.1","8.8.8.8","1.0.0.1"]
+    options = ["edns0","rotate"]
+    searchDomains = ["local"]
+
+[grpc]
+    address = ["unix:///run/buildkit/buildkitd.sock"]
+    uid = 0
+    gid = 0
+
+[worker.oci.labels]
+    "environment" = "development"
+    "project" = "python-mutliservice"
+    "cache-optimization" = "enabled"
+
+# ==================================================================
+# CACHE POLICIES - Optimized for Python development workflow
+# ==================================================================
+
+# Policy 1: Aggressive caching for pip dependencies
+[[worker.oci.gcpolicy]]
+    reservedSpace = "2GB"        # Always keep 2GB of pip cache
+    maxUsedSpace = "8GB"         # Allow large pip cache (ML libraries)
+    minFreeSpace = "5GB"         # Ensure build space remains
+    keepDuration = "168h"        # Keep pip cache for 7 days
+    filters = [
+        "type==exec.cachemount",     # Your pip cache mounts
+        "type==source.local"         # Local source changes
+]
+
+# Policy 2: Medium retention for apt caches
+[[worker.oci.gcpolicy]]
+reservedSpace = "500MB"      # Keep some apt packages
+maxUsedSpace = "2GB"         # Reasonable apt cache size
+keepDuration = "72h"         # Keep apt cache for 3 days
+filters = [
+    "type==exec.cachemount",
+    "type==source.git.checkout"
+]
+
+# Policy 3: Clean up old build artifacts aggressively
+[[worker.oci.gcpolicy]]
+all = false
+reservedSpace = "1GB"
+maxUsedSpace = "5GB"
+keepDuration = "24h"         # Clean daily for non-cache items
+filters = [
+    "type==regular"          # Regular build layers
+]
+
+[registry."docker.io"]
+    mirrors = ["mirror.gcr.io"]
+    http = false
+    insecure = false
+
+# ==================================================================
+# FRONTEND CONTROL
+# ==================================================================
+
+[frontend."dockerfile.v0"]
+    enabled = true
+
+[frontend."gateway.v0"]
+    enabled = true
+    allowedRepositories = []
+
+[system]
+    platformsCacheMaxAge = "2h"
+
+
+# ==================================================================
+# DOCKERFILE-SPECIFIC OPTIMIZATIONS
+# ==================================================================
+
+# This configuration optimizes for your specific Dockerfile:
+#
+# 1. MOUNT CACHES:
+#    - /var/cache/apt cache persists across builds
+#    - /root/.cache/pip cache persists across builds
+#    - Saves time on repeated apt-get update and pip install
+#
+# 2. MULTI-STAGE EFFICIENCY:
+#    - Higher max-parallelism allows dev/test/stage/prod to build simultaneously
+#    - Longer cache retention (7 days) helps with frequent rebuilds
+#    - Layer caching optimizes COPY --from operations
+#
+# 3. PYTHON-SPECIFIC:
+#    - Large pip cache space for ML/data science libraries
+#    - Fast DNS resolution for PyPI downloads
+#    - Overlayfs snapshotter handles Python site-packages efficiently
+#
+# 4. DEVELOPMENT WORKFLOW:
+#    - Debug enabled for troubleshooting dependency conflicts
+#    - Extended history for tracking multi-stage build issues
+#    - Network entitlements for health checks and external services
+#
+# USAGE EXAMPLES:
+# ---------------
+#
+# Build dev stage:
+# docker build --target dev -t myapp:dev .
+#
+# Build with cache debugging:
+# docker build --progress=plain --target stage -t myapp:stage .
+#
+# Build production (cache will be reused from previous stages):
+# docker build --target prod -t myapp:prod .
+#
+# Clean cache when needed:
+# docker builder prune --filter type=exec.cachemount
