@@ -1,17 +1,11 @@
-
 # ====================================
 # ARTIFACTS AND BASE ARGS
 ARG BASE_IMAGE=python
 ARG PY_VERSION=3.12
 ARG PY_BASE=slim
-ARG APP_HOME=/app
-ARG TMP=/tmp
-ARG SH_PATH=/usr/local/bin
+ARG TZ=Asia/Kolkata
 ARG ZIP_NAME=Project_playground.zip
 ARG ZIP_DIR=/updated_zip
-ARG TZ=Asia/Kolkata
-ARG ULLIB_PATH=/usr/local/lib
-ARG ULB_PATH=/usr/local/bin
 ARG PROJ_NAME=project
 # ===========================================================
 # 1) DEV: full toolchain (compilers/headers) + pip cache
@@ -19,10 +13,14 @@ ARG PROJ_NAME=project
 # ===========================================================
 FROM ${BASE_IMAGE}:${PY_VERSION}-${PY_BASE} AS dev
 
-ENV DEBIAN_FRONTEND=noninteractive\
-    PYTHONUNBUFFERED=1\
-    PYHTONDONTWRITEBYTECODE=1 \
-    TZ=${TZ}
+ARG TZ=Asia/Kolkata
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    TZ=${TZ} \
+    APP_HOME=/app \
+    TMP=/tmp \
+    SH_PATH=/usr/local/bin
 
 WORKDIR ${APP_HOME}
 
@@ -36,48 +34,54 @@ RUN --mount=type=cache,target=/var/cache/apt \
     tree \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements-dev-test.txt requirements.txt ${TMP}/
+COPY ./multistagebuild/requirements-dev-test.txt ./multistagebuild/requirements.txt ${TMP}/
 
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip && \
     pip install -r ${TMP}/requirements-dev-test.txt && \
     pip install -r ${TMP}/requirements.txt
 
-COPY ../bash_files/entrypoint.sh ${SH_PATH}/
+COPY ./bash_files/entrypoint.sh ${SH_PATH}/
 RUN chmod +x ${SH_PATH}/entrypoint.sh
 
 EXPOSE 8000
-ENTRYPOINT ["${SH_PATH}/entrypoint.sh"]
-
+ENTRYPOINT ["sh", "-c", "${SH_PATH}/entrypoint.sh"]
 
 # ===========================
 # 2) TEST
 # ===========================
+FROM dev AS test-qa
 
-FROM dev AS test-QA
-
-COPY ../bash_files/qa.sh ${SH_PATH}/
+COPY ./bash_files/qa.sh ${SH_PATH}/
 RUN chmod +x ${SH_PATH}/qa.sh
 
-ENTRYPOINT ["${SH_PATH}/qa.sh"]
+ENTRYPOINT ["sh", "-c", "${SH_PATH}/qa.sh"]
 
 # ===========================
 # 3) STAGE
 # ===========================
-
-
 FROM ${BASE_IMAGE}:${PY_VERSION}-${PY_BASE} AS stage
+
+ARG PY_VERSION=3.12
+ARG TZ=Asia/Kolkata
+ARG ZIP_NAME=Project_playground.zip
+ARG ZIP_DIR=/updated_zip
+ARG PROJ_NAME=project
 
 LABEL org.opencontainers.image.title="lets_docker prod image" \
       org.opencontainers.image.description="Production image that embeds an updated ZIP artifact" \
       org.opencontainers.image.source="https://github.com/zeroisinfinity/lets_docker"
 
-ENV DEBIAN_FRONTEND=noninteractive\
-    TZ=${TZ}
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=${TZ} \
     PYTHONUNBUFFERED=1 \
-    PYHTONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    APP_HOME=/app \
+    ULLIB_PATH=/usr/local/lib \
+    ULB_PATH=/usr/local/bin \
+    SH_PATH=/usr/local/bin
 
-RUN --mount=type=cache.target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     default-libmysqlclient-dev \
     tzdata \
@@ -87,31 +91,27 @@ RUN --mount=type=cache.target=/var/cache/apt \
 RUN addgroup --system proj_playground && \
     adduser --system --ingroup proj_playground proj
 
-COPY --from=dev ${ULLIB_PATH}/${BASE_IMAGE}-${PY_VERSION}/site-packages ${ULLIB_PATH}/${BASE_IMAGE}-${PY_VERSION}/site-packages
+COPY --from=dev ${ULLIB_PATH}/python${PY_VERSION}/site-packages ${ULLIB_PATH}/python${PY_VERSION}/site-packages
 COPY --from=dev ${ULB_PATH} ${ULB_PATH}
-
-COPY ..${ZIP_DIR}/${ZIP_NAME} ${APP_HOME}/
+COPY ${ZIP_DIR}/${ZIP_NAME} ${APP_HOME}/
 COPY --from=dev ${APP_HOME}/${PROJ_NAME} ${APP_HOME}/${PROJ_NAME}
+COPY ./bash_files/entrypoint.sh ${SH_PATH}/
 
-COPY --from=dev ${SH_PATH}/entrypoint.sh ${SH_PATH}/
-COPY ../bash_files/entrypoint.sh ${SH_PATH}/
 RUN chmod +x ${SH_PATH}/entrypoint.sh
-
 RUN chown -R proj:proj_playground ${APP_HOME}
-USER proj
 
+USER proj
+WORKDIR ${APP_HOME}
 EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
-ENTRYPOINT ["${SH_PATH}/entrypoint.sh"]
+
+ENTRYPOINT ["sh", "-c", "${SH_PATH}/entrypoint.sh"]
 
 # ===========================
 # 4) PROD
 # ===========================
-
 FROM stage AS prod
 USER proj
-ENTRYPOINT ["${SH_PATH}/entrypoint.sh"]
-
-
+ENTRYPOINT ["sh", "-c", "${SH_PATH}/entrypoint.sh"]

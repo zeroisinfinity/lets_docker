@@ -1,4 +1,4 @@
-#!/bin/bash
+c#!/bin/bash
 
 #!/usr/bin/env bash
 # This script temporarily changes the host's MySQL bind-address to allow connections
