@@ -58,7 +58,7 @@ RUN chmod +x ${SH_PATH}/qa.sh
 ENTRYPOINT ["sh", "-c", "${SH_PATH}/qa.sh"]
 
 # ===========================
-# 3) STAGE
+# 3) STAGE (Pre-production with embedded code)
 # ===========================
 FROM ${BASE_IMAGE}:${PY_VERSION}-${PY_BASE} AS stage
 
@@ -68,8 +68,8 @@ ARG ZIP_NAME=Project_playground.zip
 ARG ZIP_DIR=/updated_zip
 ARG PROJ_NAME=project
 
-LABEL org.opencontainers.image.title="lets_docker prod image" \
-      org.opencontainers.image.description="Production image that embeds an updated ZIP artifact" \
+LABEL org.opencontainers.image.title="lets_docker stage image" \
+      org.opencontainers.image.description="Stage image with embedded project code" \
       org.opencontainers.image.source="https://github.com/zeroisinfinity/lets_docker"
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -86,18 +86,31 @@ RUN --mount=type=cache,target=/var/cache/apt \
     default-libmysqlclient-dev \
     tzdata \
     curl \
+    unzip \
+    tree \
     && rm -rf /var/lib/apt/lists/*
 
+# Create non-root user
 RUN addgroup --system proj_playground && \
     adduser --system --ingroup proj_playground proj
 
+# Copy Python packages and binaries from dev
 COPY --from=dev ${ULLIB_PATH}/python${PY_VERSION}/site-packages ${ULLIB_PATH}/python${PY_VERSION}/site-packages
 COPY --from=dev ${ULB_PATH} ${ULB_PATH}
-COPY ${ZIP_DIR}/${ZIP_NAME} ${APP_HOME}/
-COPY --from=dev ${APP_HOME}/${PROJ_NAME} ${APP_HOME}/${PROJ_NAME}
-COPY ./bash_files/entrypoint.sh ${SH_PATH}/
 
+# Set working directory (creates /app if it doesn't exist)
+WORKDIR ${APP_HOME}
+
+# Copy and extract the ZIP file (embedded code)
+COPY ${ZIP_DIR}/${ZIP_NAME} ./
+RUN unzip ${ZIP_NAME} && \
+    rm ${ZIP_NAME}
+
+# Copy entrypoint
+COPY bash_files/entrypoint.sh ${SH_PATH}/
 RUN chmod +x ${SH_PATH}/entrypoint.sh
+
+# Set ownership
 RUN chown -R proj:proj_playground ${APP_HOME}
 
 USER proj
