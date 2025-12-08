@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-# Quick Docker management script
-# One-stop shop for building, running, and managing your Docker containers
+
 
 set -e
 
@@ -74,8 +72,18 @@ run_tests() {
         echo -e "${YELLOW}⚠️  Test image not found. Building first...${NC}"
         build_stage "test-qa"
     fi
-    docker run --rm --name project_test project:test-qa
+
+    echo "📦 Running TEST-QA image..."
+
+    # Move from bash_files/ → project root
+    cd "$(dirname "$0")/.."
+
+    docker run --rm -it \
+      -v "$(pwd)/updated_zip/Project_playground.zip":/app/Project_playground.zip \
+      -e DJANGO_SETTINGS_MODULE=Project_playground.settings \
+      project:test
 }
+
 
 list_images() {
     echo -e "${BLUE}📦 Project Images:${NC}"

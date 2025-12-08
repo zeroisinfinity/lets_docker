@@ -16,11 +16,12 @@ First, set up the navigation system for easier directory access:
 ```bash
 # RUN inside lets_docker/no_copy_test/bash_files
 cd bash_files
-chmod +x install_nav.sh navigate.sh    # ⚙️ make executable
+chmod +x /*.sh   # ⚙️ make executable
 ./install_nav.sh                       # 🔐 will ask for sudo
 ```
 ```bash
 # Set your project directory (run in no_copy_test root)
+cd ..
 source ~/.bashrc
 nav set $(pwd)
 ```
@@ -33,8 +34,7 @@ Tip: Use `nav -l` to list bookmarks; try `nav bash_files`, `nav creds`, `nav Pro
 ### 1) 🏗️ Build the Docker Image
 ```bash
 nav bash_files
-chmod +x ./build_img.sh ./run_docker_with_db.sh ./entrypoint.sh
-./build_img.sh
+./build_img.sh <dev/test-qa/stage/prod>
 ```
 
 ### 2a) 🔐 Generate Django Secret Key (one-time)
