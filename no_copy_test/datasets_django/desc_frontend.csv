@@ -1,6 +1,0 @@
-Field,Type,Null,Key,Default,Extra
-id,bigint,NO,PRI,NULL,auto_increment
-question,varchar(255),NO,,NULL,
-description,longtext,YES,,NULL,
-difficulty,varchar(50),NO,,NULL,
-created_at,datetime(6),NO,,NULL,
